@@ -15,6 +15,8 @@ import {
 import { colors } from "../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import AddAvatarIcon from "../icons/AddAvatarIcon";
+import RemoveAvatarIcon from "../icons/RemoveAvatarIcon";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
@@ -62,11 +64,6 @@ const RegistrationScreen = ({ navigation }: { navigation: any }) => {
     </TouchableOpacity>
   );
 
-  const avatarButtonStyle = isAvatarDefault
-    ? styles.addAvatarButton
-    : styles.removeAvatarButton;
-  const borderColor = isAvatarDefault ? colors.orange : colors.border_gray;
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
@@ -81,19 +78,10 @@ const RegistrationScreen = ({ navigation }: { navigation: any }) => {
         <View style={styles.formContainer}>
           <View style={styles.avatarContainer}>
             <Image source={avatar} resizeMode="contain" style={styles.avatar} />
-            <TouchableOpacity
-              onPress={addAvatar}
-              style={[avatarButtonStyle, { borderColor }]}
-            >
-              <Image
-                source={
-                  isAvatarDefault
-                    ? require("../assets/images/add.png")
-                    : require("../assets/images/remove.png")
-                }
-                resizeMode="cover"
-                style={styles.image}
-              />
+            <TouchableOpacity onPress={addAvatar}>
+              <View style={styles.avatarButtonStyle}>
+                {isAvatarDefault ? <AddAvatarIcon /> : <RemoveAvatarIcon />}
+              </View>
             </TouchableOpacity>
           </View>
           <Text style={styles.title}>Реєстрація</Text>
@@ -129,9 +117,9 @@ const RegistrationScreen = ({ navigation }: { navigation: any }) => {
 
             <View style={styles.signUpContainer}>
               <Text style={[styles.baseText, styles.passwordButtonText]}>
-                Вже є акаунт?
+                Вже є аккаунт?
                 <TouchableWithoutFeedback onPress={onSignUp}>
-                  <Text style={styles.signUpText}> Увійти</Text>
+                  <Text style={styles.signUpText}> Увійти</Text>
                 </TouchableWithoutFeedback>
               </Text>
             </View>
@@ -167,7 +155,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   formContainer: {
-    height: "75%",
+    height: "85%",
     width: SCREEN_WIDTH,
     backgroundColor: colors.white,
     borderTopRightRadius: 25,
@@ -218,25 +206,14 @@ const styles = StyleSheet.create({
     marginTop: -92,
     marginBottom: 32,
   },
-  addAvatarButton: {
+  avatarButtonStyle: {
     width: 24,
     height: 24,
-    borderRadius: 100,
-    borderWidth: 1,
     position: "absolute",
     bottom: 12,
     right: -12,
   },
-  removeAvatarButton: {
-    width: 24,
-    height: 24,
-    borderRadius: 100,
-    borderWidth: 1,
-    position: "absolute",
-    bottom: 12,
-    right: -12,
-    backgroundColor: colors.light_gray,
-  },
+
   addAvatarButtonText: {
     fontSize: 18,
     fontWeight: "500",

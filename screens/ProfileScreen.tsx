@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { colors } from "../styles/global";
 import PostsScreen from "./PostsScreen";
+import RemoveAvatarIcon from "../icons/RemoveAvatarIcon";
+import AddAvatarIcon from "../icons/AddAvatarIcon";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
@@ -19,6 +21,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
     require("../assets/images/default-avatar.png")
   );
   const [isAvatarDefault, setIsAvatarDefault] = useState(true);
+  const [userName, setUserName] = useState("User Name");
 
   const addAvatar = () => {
     setAvatar(
@@ -28,11 +31,6 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
     );
     setIsAvatarDefault((prev) => !prev);
   };
-
-  const avatarButtonStyle = isAvatarDefault
-    ? styles.addAvatarButton
-    : styles.removeAvatarButton;
-  const borderColor = isAvatarDefault ? colors.orange : colors.border_gray;
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -45,22 +43,13 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
         <View style={styles.formContainer}>
           <View style={styles.avatarContainer}>
             <Image source={avatar} resizeMode="contain" style={styles.avatar} />
-            <TouchableOpacity
-              onPress={addAvatar}
-              style={[avatarButtonStyle, { borderColor }]}
-            >
-              <Image
-                source={
-                  isAvatarDefault
-                    ? require("../assets/images/add.png")
-                    : require("../assets/images/remove.png")
-                }
-                resizeMode="cover"
-                style={styles.image}
-              />
+            <TouchableOpacity onPress={addAvatar}>
+              <View style={styles.avatarButtonStyle}>
+                {isAvatarDefault ? <AddAvatarIcon /> : <RemoveAvatarIcon />}
+              </View>
             </TouchableOpacity>
           </View>
-          <Text style={styles.title}>Natali Romanova</Text>
+          <Text style={styles.title}>{userName}</Text>
           <PostsScreen />
         </View>
       </View>
@@ -77,11 +66,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   innerContainer: {
-   
     gap: 16,
   },
   inputContainer: {
-    
     marginTop: 32,
   },
   buttonContainer: {
@@ -95,7 +82,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   formContainer: {
-   
     height: "85%",
     width: SCREEN_WIDTH,
     backgroundColor: colors.white,
@@ -151,24 +137,12 @@ const styles = StyleSheet.create({
     marginTop: -92,
     marginBottom: 32,
   },
-  addAvatarButton: {
+  avatarButtonStyle: {
     width: 24,
     height: 24,
-    borderRadius: 100,
-    borderWidth: 1,
     position: "absolute",
     bottom: 12,
     right: -12,
-  },
-  removeAvatarButton: {
-    width: 24,
-    height: 24,
-    borderRadius: 100,
-    borderWidth: 1,
-    position: "absolute",
-    bottom: 12,
-    right: -12,
-    backgroundColor: colors.light_gray,
   },
   addAvatarButtonText: {
     fontSize: 18,
