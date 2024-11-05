@@ -1,20 +1,17 @@
-import { FC } from "react"
-import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native"
+import { FC } from "react";
+import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
 
 import { colors } from "../../styles/global";
 
 type ButtonProps = {
-  children: React.ReactNode,
-  buttonStyle?: ViewStyle
+  children: React.ReactNode;
+  buttonStyle?: ViewStyle;
   onPress: () => void;
-}
+};
 
 const Button: FC<ButtonProps> = ({ children, onPress, buttonStyle }) => {
   return (
-    <TouchableOpacity
-      style={[style.button, buttonStyle]}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={[style.button, buttonStyle]} onPress={onPress}>
       {children}
     </TouchableOpacity>
   );
@@ -29,4 +26,4 @@ const style = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 32,
   },
-})
+});

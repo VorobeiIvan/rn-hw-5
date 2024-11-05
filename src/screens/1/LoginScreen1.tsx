@@ -13,47 +13,27 @@ import {
   View,
 } from "react-native";
 import { colors } from "../styles/global";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import AddAvatarIcon from "../icons/AddAvatarIcon";
-import RemoveAvatarIcon from "../icons/RemoveAvatarIcon";
+import Input from "../src/components/Input";
+import Button from "../src/components/Button";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
-const RegistrationScreen = ({ navigation }: { navigation: any }) => {
-  const [login, setLogin] = useState("");
+const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const [avatar, setAvatar] = useState(
-    require("../assets/images/default-avatar.png")
-  );
-  const [isAvatarDefault, setIsAvatarDefault] = useState(true);
 
-  const handleLoginChange = (value: string) => setLogin(value);
   const handleEmailChange = (value: string) => setEmail(value);
   const handlePasswordChange = (value: string) => setPassword(value);
   const showPassword = () => setIsPasswordVisible((prev) => !prev);
-  const addAvatar = () => {
-    setAvatar(
-      isAvatarDefault
-        ? require("../assets/images/avatar.jpg")
-        : require("../assets/images/default-avatar.png")
-    );
-    setIsAvatarDefault((prev) => !prev);
-  };
 
   const onLogin = () => {
-    if (!login || !email || !password) {
-      Alert.alert("Credentials", "All fields are required");
-      return;
-    }
-    Alert.alert("Credentials", `${login} + ${email} + ${password}`);
+    Alert.alert("Credentials", `${email} + ${password}`);
     navigation.navigate("Home");
   };
 
   const onSignUp = () => {
-    navigation.navigate("Login");
+    navigation.navigate("Registration");
   };
 
   const showButton = (
@@ -76,25 +56,12 @@ const RegistrationScreen = ({ navigation }: { navigation: any }) => {
           style={styles.image}
         />
         <View style={styles.formContainer}>
-          <View style={styles.avatarContainer}>
-            <Image source={avatar} resizeMode="contain" style={styles.avatar} />
-            <TouchableOpacity onPress={addAvatar}>
-              <View style={styles.avatarButtonStyle}>
-                {isAvatarDefault ? <AddAvatarIcon /> : <RemoveAvatarIcon />}
-              </View>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.title}>Реєстрація</Text>
+          <Text style={styles.title}>Увійти</Text>
 
           <View style={[styles.innerContainer, styles.inputContainer]}>
             <Input
-              value={login}
-              autofocus={true}
-              placeholder="Логін"
-              onTextChange={handleLoginChange}
-            />
-            <Input
               value={email}
+              autofocus={true}
               placeholder="Адреса електронної пошти"
               onTextChange={handleEmailChange}
             />
@@ -111,15 +78,15 @@ const RegistrationScreen = ({ navigation }: { navigation: any }) => {
           <View style={[styles.innerContainer, styles.buttonContainer]}>
             <Button onPress={onLogin}>
               <Text style={[styles.baseText, styles.loginButtonText]}>
-                Зареєструватися
+                Увійти
               </Text>
             </Button>
 
             <View style={styles.signUpContainer}>
               <Text style={[styles.baseText, styles.passwordButtonText]}>
-                Вже є аккаунт?
+                Немає акаунту?
                 <TouchableWithoutFeedback onPress={onSignUp}>
-                  <Text style={styles.signUpText}> Увійти</Text>
+                  <Text style={styles.signUpText}> Зареєструватися</Text>
                 </TouchableWithoutFeedback>
               </Text>
             </View>
@@ -130,8 +97,7 @@ const RegistrationScreen = ({ navigation }: { navigation: any }) => {
   );
 };
 
-export default RegistrationScreen;
-
+export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -155,8 +121,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   formContainer: {
-    height: "85%",
     width: SCREEN_WIDTH,
+    height: "65%",
     backgroundColor: colors.white,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
@@ -192,30 +158,5 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     textDecorationLine: "underline",
-    marginBottom: 46,
-  },
-  avatar: {
-    backgroundColor: colors.light_gray,
-    borderRadius: 16,
-    width: 120,
-    height: 120,
-  },
-  avatarContainer: {
-    position: "relative",
-    alignSelf: "center",
-    marginTop: -92,
-    marginBottom: 32,
-  },
-  avatarButtonStyle: {
-    width: 24,
-    height: 24,
-    position: "absolute",
-    bottom: 12,
-    right: -12,
-  },
-
-  addAvatarButtonText: {
-    fontSize: 18,
-    fontWeight: "500",
   },
 });

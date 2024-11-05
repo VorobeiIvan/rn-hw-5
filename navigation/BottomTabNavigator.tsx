@@ -1,128 +1,106 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationProp } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import Ionicons from '@expo/vector-icons/Ionicons'
 
-import { Feather, Ionicons } from "@expo/vector-icons";
-import { colors } from "../styles/global"; // Переконайтеся, що ці кольори існують
-import PostsScreen from "../screens/PostsScreen";
-import CreatePostsScreen from "../screens/CreatePostsScreen";
+import { colors } from "../../styles/global";
+
+import CameraScreen from "../screens/CameraScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import CreatePostNavigator from "./CreatePostNavigator";
+import BackButton from "../components/BackButton";
+import { logoutDB } from "../utils/auth";
+import MapScreen from "../screens/MapScreen";
+import LogoutButton from "../components/LogoutButton";
 
-const Tabs = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
-const BottomTabNavigator = ({
-  navigation,
-}: {
-  navigation: NavigationProp<any>;
-}) => {
-  const handleLogOut = () => {
-    navigation.navigate("Login");
-  };
+const BottomTabNavigator = () => {
+  const dispatch = useDispatch();
 
   return (
-    <Tabs.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused }) => {
-          let iconName:
-            | "grid"
-            | "grid-outline"
-            | "add-circle"
-            | "add-circle-outline"
-            | "person"
-            | "person-outline";
-
-          // Встановлюємо значення для iconName
-          switch (route.name) {
-            case "Posts":
-              iconName = focused ? "grid" : "grid-outline";
-              break;
-            case "CreatePosts":
-              iconName = focused ? "add-circle" : "add-circle-outline";
-              break;
-            case "Profile":
-              iconName = focused ? "person" : "person-outline";
-              break;
-            default:
-              iconName = "grid-outline"; // Значення за замовчуванням
-          }
-
-          const iconColor = focused ? colors.white : colors.black_primary; // Змінюємо колір іконки
-
-          return (
-            <View style={styles.iconContainer}>
-              <View
-                style={[
-                  styles.focusedIconContainer,
-                  focused && styles.activeIcon,
-                ]}
-              >
-                <Ionicons
-                  name={iconName}
-                  size={focused ? 32 : 24}
-                  color={iconColor}
-                />
-              </View>
-            </View>
-          );
+    <Tab.Navigator
+      initialRouteName="Profile"
+      screenOptions={({ navigation }) => ({
+        headerRightContainerStyle: { paddingRight: 16 },
+        headerLeftContainerStyle: { paddingLeft: 16 },
+        tabBarLabel: "",
+        tabBarStyle: {
+          height: 100,
+          paddingVertical: 16,
         },
-        tabBarActiveTintColor: colors.orange,
-        tabBarInactiveTintColor: colors.black_primary,
-        tabBarLabel: () => null,
-        tabBarStyle: styles.tabBarStyle,
       })}
     >
-      <Tabs.Screen
-        name="Posts"
-        component={PostsScreen}
-        options={{
-          title: "Публікації",
-          headerRight: () => (
-            <View style={styles.iconContainer}>
-              <Feather
-                name="log-out"
-                size={24}
-                color={colors.border_gray}
-                onPress={handleLogOut}
+      <Tab.Screen
+        name="Map"
+        component={MapScreen}
+        options={({ navigation }) => ({
+          title: "Map",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="map"
+              size={32}
+              color={focused ? colors.orange : "black"}
+            />
+          ),
+        })}
+      />
+
+      <Tab.Screen
+        name="CreatePostStack"
+        component={CreatePostNavigator}
+        options={({ navigation }) => ({
+          title: "Create Post",
+          headerShown: false,
+          tabBarStyle: { display: "none" },
+          headerLeft: () => (
+            <BackButton
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.addButton}>
+              <Ionicons
+                size={32}
+                name="add"
+                color={colors.white}
               />
             </View>
           ),
-        }}
+        })}
       />
-      <Tabs.Screen
-        name="CreatePosts"
-        component={CreatePostsScreen}
-        options={{
-          title: "Створити публікацію",
-        }}
-      />
-      <Tabs.Screen
+
+      <Tab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ headerShown: false }}
+        options={({ navigation }) => ({
+          title: "Profile",
+          headerRight: () => (
+            <LogoutButton
+              onPress={() => logoutDB(dispatch)}
+            />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="person"
+              size={32}
+              color={focused ? colors.orange : "black"}
+            />
+          ),
+        })}
       />
-    </Tabs.Navigator>
+    </Tab.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
-  iconContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  focusedIconContainer: {
+  addButton: {
     width: 70,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "transparent",
-    justifyContent: "center",
+    backgroundColor: colors.orange,
     alignItems: "center",
-  },
-  activeIcon: {
-    backgroundColor: "#FF6C00",
-  },
-  tabBarStyle: {
-    height: 60,
+    justifyContent: "center",
   },
 });
 
