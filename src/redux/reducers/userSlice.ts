@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserData } from '../../types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserData } from "../../types";
 
 // Типи для початкового стану
 interface UserState {
@@ -12,10 +12,10 @@ const initialState: UserState = {
 
 // Створення slice для користувача
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
-    setUserInfo(state, action: PayloadAction<UserState['userInfo']>) {
+    setUserInfo(state, action: PayloadAction<UserState["userInfo"]>) {
       state.userInfo = action.payload;
     },
     clearUserInfo(state) {

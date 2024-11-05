@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "NeoversityApp",
-    "slug": "NeoversityApp",
+    "name": "hwrnapp",
+    "slug": "hwrnapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -11,21 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "assets/fonts/*"
-    ],
+    "assetBundlePatterns": ["assets/fonts/*"],
     "ios": {
       "supportsTablet": true,
       "config": {
         "googleMapsApiKey": "AIzaSyCw5RG5hV0guHJOEenpb6afKt2MGSZB_Tw"
       },
-      "bundleIdentifier": "com.neoversityapp",
+      "bundleIdentifier": "com.hwrnapp",
       "infoPlist": {
-        "UIBackgroundModes": [
-          "location",
-          "fetch",
-          "remote-notification"
-        ],
+        "UIBackgroundModes": ["location", "fetch", "remote-notification"],
         "NSLocationWhenInUseUsageDescription": "This app requires access to your location when open.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires access to your location even when closed.",
         "NSLocationAlwaysUsageDescription": "This app requires access to your location when open.",
@@ -51,7 +45,7 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.ACCESS_MEDIA_LOCATION"
       ],
-      "package": "com.neoversityapp"
+      "package": "com.hwrnapp"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

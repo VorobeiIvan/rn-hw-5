@@ -5,12 +5,13 @@ import * as MediaLibrary from "expo-media-library";
 import { NativeStackScreenProps } from "react-native-screens/lib/typescript/native-stack/types";
 import { CreatePostStackParamList } from "../navigation/CreatePostNavigator";
 
-type ScreenProps = NativeStackScreenProps<CreatePostStackParamList, 'Camera'>;
+type ScreenProps = NativeStackScreenProps<CreatePostStackParamList, "Camera">;
 
 const CameraScreen: FC<ScreenProps> = ({ navigation }) => {
-  const [facing, setFacing] = useState<CameraType>('back');
+  const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
-  const [permissionResponse, requestLibraryPermission] = MediaLibrary.usePermissions();
+  const [permissionResponse, requestLibraryPermission] =
+    MediaLibrary.usePermissions();
   const camera = useRef();
 
   if (!permission) {
@@ -22,23 +23,25 @@ const CameraScreen: FC<ScreenProps> = ({ navigation }) => {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>We need your permission to show the camera</Text>
+        <Text style={styles.message}>
+          We need your permission to show the camera
+        </Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
   }
 
   function toggleCameraFacing() {
-    setFacing(current => (current === 'back' ? 'front' : 'back'));
-  };
+    setFacing((current) => (current === "back" ? "front" : "back"));
+  }
 
   const takePhoto = async () => {
     if (!camera) return;
 
     const image = await camera?.current?.takePictureAsync();
     await MediaLibrary.saveToLibraryAsync(image.uri);
-    navigation.replace('CreatePost', { photo: image.uri })
-  }
+    navigation.replace("CreatePost", { photo: image.uri });
+  };
 
   return (
     <View style={styles.container}>
@@ -55,17 +58,17 @@ const CameraScreen: FC<ScreenProps> = ({ navigation }) => {
       </CameraView>
     </View>
   );
-}
+};
 
 export default CameraScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   message: {
-    textAlign: 'center',
+    textAlign: "center",
     paddingBottom: 10,
   },
   camera: {
@@ -73,18 +76,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    backgroundColor: "transparent",
     margin: 64,
   },
   button: {
     flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
+    alignSelf: "flex-end",
+    alignItems: "center",
   },
   text: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
 });
